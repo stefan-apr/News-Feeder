@@ -61,24 +61,17 @@ app.get("/saved", function(req, res) {
 });
 
 app.get("/scrape", function(req, res) {
-  request("https://www.nytimes.com/", function(error, response, html) {
+  request("https://www.kiro7.com/news/local/", function(error, response, html) {
     var $ = cheerio.load(html);
-    $("article").each(function(i, element) {
+    $("li > a").each(function(i, element) {
 
       var result = {};
-      summary = ""
-      if ($(this).find("ul").length) {
-        summary = $(this).find("li").first().text();
-      } else {
-        summary = $(this).find("p").text();
-      };
 
-      result.title = $(this).find("h2").text();
-      result.summary = summary;
-      result.link = "https://www.nytimes.com" + $(this).find("a").attr("href");
+      result.title = $(this).find("h4 > span").text();
+      result.summary = $(this).find("a > p").text();
+      result.link = "https://www.kiro7.com/news/local" + $(this).attr("href");
 
       var entry = new Article(result);
-
       entry.save(function(err, doc) {
         if (err) {
           console.log(err);
@@ -88,7 +81,7 @@ app.get("/scrape", function(req, res) {
         }
       });
     });
-       res.send("Scrape Complete");
+    res.send("Scrape Complete");
   });
 });
 
