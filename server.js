@@ -137,6 +137,16 @@ app.post("/articles/delete/:id", function(req, res) {
       });
 });
 
+app.post("/articles/deleteAll", function(req, res) {
+      Article.deleteMany({})
+      .exec(function(err, doc) {
+        if(err) {
+          console.log(err);
+        } else {
+          res.send(doc);
+        }
+      });
+});
 
 app.post("/notes/save/:id", function(req, res) {
   var newNote = new Note({

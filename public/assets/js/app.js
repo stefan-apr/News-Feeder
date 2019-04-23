@@ -8,6 +8,15 @@ $("#start-scrape").on("click", function() {
     })
 });
 
+$("#delete-all").on("click", function() {
+    $.ajax({
+        method: "POST",
+        url: "/articles/deleteAll/"
+    }).done(function(data) {
+        window.location = "/"
+    })
+});
+
 //Set clicked nav option to active
 $(".navbar-nav li").click(function() {
    $(".navbar-nav li").removeClass("active");
